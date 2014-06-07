@@ -9,5 +9,9 @@
 #import "MJRefreshBaseView.h"
 
 @interface MJRefreshFooterView : MJRefreshBaseView
+
 + (instancetype)footer;
+
++ (instancetype)footerWithAutoLoading:(BOOL)autoLoading;
+
 @end

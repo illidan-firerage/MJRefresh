@@ -13,13 +13,24 @@
 
 @interface MJRefreshFooterView()
 @property (assign, nonatomic) int lastRefreshCount;
+@property (assign, nonatomic) BOOL autoLoading;
 @end
 
 @implementation MJRefreshFooterView
 
 + (instancetype)footer
 {
-    return [[MJRefreshFooterView alloc] init];
+    MJRefreshFooterView *refreshFooterView = [[MJRefreshFooterView alloc] init];
+    refreshFooterView.arrowHidden = YES;
+    return refreshFooterView;
+}
+
++ (instancetype)footerWithAutoLoading:(BOOL)autoLoading
+{
+    MJRefreshFooterView *refreshFooterView = [[MJRefreshFooterView alloc] init];
+    refreshFooterView.autoLoading = autoLoading;
+    refreshFooterView.arrowHidden = YES;
+    return refreshFooterView;
 }
 
 - (void)layoutSubviews
@@ -89,20 +100,30 @@
     // 如果是向下滚动到看不见尾部控件，直接返回
     if (currentOffsetY <= happenOffsetY) return;
     
-    if (self.scrollView.isDragging) {
+    // 普通 和 即将刷新 的临界点
+    CGFloat normal2pullingOffsetY = happenOffsetY + self.height;
+    
+    if (_autoLoading) {
         // 普通 和 即将刷新 的临界点
-        CGFloat normal2pullingOffsetY = happenOffsetY + self.height;
+        CGFloat normal2pullingOffsetY = happenOffsetY;
         
         if (self.state == MJRefreshStateNormal && currentOffsetY > normal2pullingOffsetY) {
-            // 转为即将刷新状态
-            self.state = MJRefreshStatePulling;
-        } else if (self.state == MJRefreshStatePulling && currentOffsetY <= normal2pullingOffsetY) {
-            // 转为普通状态
-            self.state = MJRefreshStateNormal;
+            // 开始刷新
+            self.state = MJRefreshStateRefreshing;
         }
-    } else if (self.state == MJRefreshStatePulling) {// 即将刷新 && 手松开
-        // 开始刷新
-        self.state = MJRefreshStateRefreshing;
+    } else {
+        if (self.scrollView.isDragging) {
+            if (self.state == MJRefreshStateNormal && currentOffsetY > normal2pullingOffsetY) {
+                // 转为即将刷新状态
+                self.state = MJRefreshStatePulling;
+            } else if (self.state == MJRefreshStatePulling && currentOffsetY <= normal2pullingOffsetY) {
+                // 转为普通状态
+                self.state = MJRefreshStateNormal;
+            }
+        } else if (self.state == MJRefreshStatePulling) {// 即将刷新 && 手松开
+            // 开始刷新
+            self.state = MJRefreshStateRefreshing;
+        }
     }
 }
 
@@ -129,15 +150,21 @@
             
             // 刷新完毕
             if (MJRefreshStateRefreshing == oldState) {
-                self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
-                [UIView animateWithDuration:MJRefreshSlowAnimationDuration animations:^{
-                    self.scrollView.contentInsetBottom = self.scrollViewOriginalInset.bottom;
-                }];
-            } else {
-                // 执行动画
-                [UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
+                if (!self.arrowHidden) {
                     self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
-                }];
+                    [UIView animateWithDuration:MJRefreshSlowAnimationDuration animations:^{
+                        self.scrollView.contentInsetBottom = self.scrollViewOriginalInset.bottom;
+                    }];
+                } else {
+                    self.scrollView.contentInsetBottom = self.scrollViewOriginalInset.bottom;
+                }
+            } else {
+                if (!self.arrowHidden) {
+                    // 执行动画
+                    [UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
+                        self.arrowImage.transform = CGAffineTransformMakeRotation(M_PI);
+                    }];
+                }
             }
             
             CGFloat deltaH = [self heightForContentBreakView];
@@ -154,9 +181,11 @@
             // 设置文字
             self.statusLabel.text = MJRefreshFooterReleaseToRefresh;
             
-            [UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
-                self.arrowImage.transform = CGAffineTransformIdentity;
-            }];
+            if (!self.arrowHidden) {
+                [UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
+                    self.arrowImage.transform = CGAffineTransformIdentity;
+                }];
+            }
 			break;
         }
             

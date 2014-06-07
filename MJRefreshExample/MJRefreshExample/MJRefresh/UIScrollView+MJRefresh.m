@@ -143,6 +143,19 @@ static char MJRefreshFooterViewKey;
     self.footer.beginRefreshingCallback = callback;
 }
 
+- (void)addFooterWithCallback:(void (^)())callback autoLoading:(BOOL)autoLoading
+{
+    // 1.创建新的footer
+    if (!self.footer) {
+        MJRefreshFooterView *footer = [MJRefreshFooterView footerWithAutoLoading:autoLoading];
+        [self addSubview:footer];
+        self.footer = footer;
+    }
+    
+    // 2.设置block回调
+    self.footer.beginRefreshingCallback = callback;
+}
+
 /**
  *  添加一个上拉刷新尾部控件
  *
@@ -154,6 +167,20 @@ static char MJRefreshFooterViewKey;
     // 1.创建新的footer
     if (!self.footer) {
         MJRefreshFooterView *footer = [MJRefreshFooterView footer];
+        [self addSubview:footer];
+        self.footer = footer;
+    }
+    
+    // 2.设置目标和回调方法
+    self.footer.beginRefreshingTaget = target;
+    self.footer.beginRefreshingAction = action;
+}
+
+- (void)addFooterWithTarget:(id)target action:(SEL)action autoLoading:(BOOL)autoLoading
+{
+    // 1.创建新的footer
+    if (!self.footer) {
+        MJRefreshFooterView *footer = [MJRefreshFooterView footerWithAutoLoading:autoLoading];
         [self addSubview:footer];
         self.footer = footer;
     }

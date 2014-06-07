@@ -44,12 +44,21 @@
  */
 - (UIImageView *)arrowImage
 {
-    if (!_arrowImage) {
+    if (!_arrowImage && !_arrowHidden) {
         UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MJRefreshSrcName(@"arrow.png")]];
         arrowImage.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self addSubview:_arrowImage = arrowImage];
     }
     return _arrowImage;
+}
+
+- (void)setArrowHidden:(BOOL)arrowHidden
+{
+    _arrowHidden = arrowHidden;
+    if (_arrowHidden && _arrowImage) {
+        [_arrowImage removeFromSuperview];
+        _arrowImage = nil;
+    }
 }
 
 /**
@@ -84,12 +93,18 @@
 {
     [super layoutSubviews];
     
-    // 1.箭头
-    CGFloat arrowX = self.width * 0.5 - 100;
-    self.arrowImage.center = CGPointMake(arrowX, self.height * 0.5);
-    
-    // 2.指示器
-    self.activityView.center = self.arrowImage.center;
+    if (_arrowHidden) {
+        // 1.指示器
+        CGFloat arrowX = self.width * 0.5 - 100;
+        self.activityView.center = CGPointMake(arrowX, self.height * 0.5);
+    } else {
+        // 1.箭头
+        CGFloat arrowX = self.width * 0.5 - 100;
+        self.arrowImage.center = CGPointMake(arrowX, self.height * 0.5);
+        
+        // 2.指示器
+        self.activityView.center = self.arrowImage.center;
+    }
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview

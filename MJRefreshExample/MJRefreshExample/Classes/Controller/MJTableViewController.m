@@ -75,7 +75,7 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
     [self.tableView headerBeginRefreshing];
     
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing) autoLoading:YES];
 }
 
 #pragma mark 开始进入刷新状态

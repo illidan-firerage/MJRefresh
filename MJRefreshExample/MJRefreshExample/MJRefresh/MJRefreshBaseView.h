@@ -36,6 +36,8 @@ typedef enum {
 @property (nonatomic, weak, readonly) UIImageView *arrowImage;
 @property (nonatomic, weak, readonly) UIActivityIndicatorView *activityView;
 
+@property (assign, nonatomic) BOOL arrowHidden;
+
 #pragma mark - 回调
 /**
  *  开始进入刷新状态的监听器
@@ -55,6 +57,7 @@ typedef enum {
  *  是否正在刷新
  */
 @property (nonatomic, readonly, getter=isRefreshing) BOOL refreshing;
+
 /**
  *  开始刷新
  */

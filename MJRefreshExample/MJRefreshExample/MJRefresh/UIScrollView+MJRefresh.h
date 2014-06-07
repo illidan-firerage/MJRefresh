@@ -53,6 +53,8 @@
  */
 - (void)addFooterWithCallback:(void (^)())callback;
 
+- (void)addFooterWithCallback:(void (^)())callback autoLoading:(BOOL)autoLoading;
+
 /**
  *  添加一个上拉刷新尾部控件
  *
@@ -60,6 +62,8 @@
  *  @param action 回调方法
  */
 - (void)addFooterWithTarget:(id)target action:(SEL)action;
+
+- (void)addFooterWithTarget:(id)target action:(SEL)action autoLoading:(BOOL)autoLoading;
 
 /**
  *  移除上拉刷新尾部控件
