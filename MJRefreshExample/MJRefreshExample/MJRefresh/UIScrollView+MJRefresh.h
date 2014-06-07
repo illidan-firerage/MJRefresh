@@ -53,7 +53,7 @@
  */
 - (void)addFooterWithCallback:(void (^)())callback;
 
-- (void)addFooterWithCallback:(void (^)())callback autoLoading:(BOOL)autoLoading;
+- (void)addFooterWithAutoLoading:(BOOL)autoLoading callback:(void (^)())callback;
 
 /**
  *  添加一个上拉刷新尾部控件

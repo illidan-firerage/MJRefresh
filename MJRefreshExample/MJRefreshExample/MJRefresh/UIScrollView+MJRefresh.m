@@ -143,7 +143,7 @@ static char MJRefreshFooterViewKey;
     self.footer.beginRefreshingCallback = callback;
 }
 
-- (void)addFooterWithCallback:(void (^)())callback autoLoading:(BOOL)autoLoading
+- (void)addFooterWithAutoLoading:(BOOL)autoLoading callback:(void (^)())callback
 {
     // 1.创建新的footer
     if (!self.footer) {
