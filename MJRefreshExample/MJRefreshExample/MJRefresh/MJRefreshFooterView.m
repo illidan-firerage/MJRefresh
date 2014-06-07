@@ -33,6 +33,33 @@
     return refreshFooterView;
 }
 
+#pragma mark -
+#pragma mark - UIAppearance
+
+//- (NSString *)pullNormalTitle
+//{
+//    if (!_pullNormalTitle) {
+//        _pullDownNormalTitle = [[[self class] appearance] pullNormalTitle];
+//    }
+//    return _pullDownNormalTitle;
+//}
+//
+//- (NSString *)pullUpNormalTitle
+//{
+//    if (!_pullUpNormalTitle) {
+//        _pullUpNormalTitle = [[[self class] appearance] pullUpNormalTitle];
+//    }
+//    return _pullUpNormalTitle;
+//}
+//
+//- (NSString *)pullUpRefreshingTitle
+//{
+//    if (!_pullUpRefreshingTitle) {
+//        _pullUpRefreshingTitle = [[[self class] appearance] pullUpRefreshingTitle];
+//    }
+//    return _pullUpRefreshingTitle;
+//}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -146,7 +173,7 @@
 		case MJRefreshStateNormal:
         {
             // 设置文字
-            self.statusLabel.text = MJRefreshFooterPullToRefresh;
+            self.statusLabel.text = self.pullNormalTitle;
             
             // 刷新完毕
             if (MJRefreshStateRefreshing == oldState) {
@@ -179,7 +206,7 @@
 		case MJRefreshStatePulling:
         {
             // 设置文字
-            self.statusLabel.text = MJRefreshFooterReleaseToRefresh;
+            self.statusLabel.text = self.pullReleaseTitle;
             
             if (!self.arrowHidden) {
                 [UIView animateWithDuration:MJRefreshFastAnimationDuration animations:^{
@@ -192,7 +219,7 @@
         case MJRefreshStateRefreshing:
         {
             // 设置文字
-            self.statusLabel.text = MJRefreshFooterRefreshing;
+            self.statusLabel.text = self.pullRefreshingTitle;
             
             // 记录刷新前的数量
             self.lastRefreshCount = [self totalDataCountInScrollView];

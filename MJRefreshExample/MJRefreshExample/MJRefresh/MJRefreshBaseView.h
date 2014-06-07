@@ -26,7 +26,23 @@ typedef enum {
 /**
  类的声明
  */
-@interface MJRefreshBaseView : UIView
+@interface MJRefreshBaseView : UIView <UIAppearance>
+
+// 刷新箭头图片名称
+@property (nonatomic, copy) NSString *arrowImageName UI_APPEARANCE_SELECTOR;
+
+// 拉动时默认标题
+@property (nonatomic, copy) NSString *pullNormalTitle UI_APPEARANCE_SELECTOR;
+
+// 拉动时松手标题
+@property (nonatomic, copy) NSString *pullReleaseTitle UI_APPEARANCE_SELECTOR;
+
+// 拉动时刷新标题
+@property (nonatomic, copy) NSString *pullRefreshingTitle UI_APPEARANCE_SELECTOR;
+
+// 最后更新时间标题
+@property (nonatomic, copy) NSString *lastRefreshingDateTitle UI_APPEARANCE_SELECTOR;
+
 #pragma mark - 父控件
 @property (nonatomic, weak, readonly) UIScrollView *scrollView;
 @property (nonatomic, assign, readonly) UIEdgeInsets scrollViewOriginalInset;

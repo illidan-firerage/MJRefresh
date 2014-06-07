@@ -1,5 +1,7 @@
 
 #import "UIScrollView+MJRefresh.h"
+#import "MJRefreshHeaderView.h"
+#import "MJRefreshFooterView.h"
 
 /**
  MJ友情提示：

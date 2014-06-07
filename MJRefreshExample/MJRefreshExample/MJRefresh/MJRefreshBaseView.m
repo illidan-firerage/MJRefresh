@@ -21,6 +21,7 @@
 @end
 
 @implementation MJRefreshBaseView
+
 #pragma mark - 控件初始化
 /**
  *  状态标签
@@ -45,12 +46,21 @@
 - (UIImageView *)arrowImage
 {
     if (!_arrowImage && !_arrowHidden) {
-        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MJRefreshSrcName(@"arrow.png")]];
+        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.arrowImageName]];
         arrowImage.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         [self addSubview:_arrowImage = arrowImage];
     }
     return _arrowImage;
 }
+
+- (NSString *)arrowImageName
+{
+    if (!_arrowImageName) {
+        _arrowImageName = [[[self class] appearance] arrowImageName];
+    }
+    return _arrowImageName;
+}
+
 
 - (void)setArrowHidden:(BOOL)arrowHidden
 {
@@ -82,7 +92,7 @@
         // 1.自己的属性
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         self.backgroundColor = [UIColor clearColor];
-        
+
         // 2.设置默认状态
         self.state = MJRefreshStateNormal;
     }

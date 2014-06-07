@@ -47,6 +47,16 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
 {
     [super viewDidLoad];
     
+    [[MJRefreshHeaderView appearance] setArrowImageName:@"arrow.png"];
+    [[MJRefreshHeaderView appearance] setLastRefreshingDateTitle:@"最后刷新 : "];
+    [[MJRefreshHeaderView appearance] setPullNormalTitle:@"下拉刷新"];
+    [[MJRefreshHeaderView appearance] setPullReleaseTitle:@"松手开始刷新"];
+    [[MJRefreshHeaderView appearance] setPullRefreshingTitle:@"刷新中..."];
+    
+    [[MJRefreshFooterView appearance] setPullNormalTitle:@"上拉加载更多"];
+    [[MJRefreshFooterView appearance] setPullReleaseTitle:@"松手开始加载"];
+    [[MJRefreshFooterView appearance] setPullRefreshingTitle:@"加载中..."];
+    
     // 1.注册cell
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:MJTableViewCellIdentifier];
     
@@ -75,7 +85,7 @@ NSString *const MJTableViewCellIdentifier = @"Cell";
     [self.tableView headerBeginRefreshing];
     
     // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
-    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing) autoLoading:YES];
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing) autoLoading:NO];
 }
 
 #pragma mark 开始进入刷新状态
