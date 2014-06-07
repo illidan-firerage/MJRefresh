@@ -224,4 +224,32 @@
     // 3.存储状态
     _state = state;
 }
+
+#pragma mark -
+#pragma mark - UIAppearance
+
+- (NSString *)pullNormalTitle
+{
+    if (!_pullNormalTitle) {
+        _pullNormalTitle = [[[self class] appearance] pullNormalTitle];
+    }
+    return _pullNormalTitle;
+}
+
+- (NSString *)pullReleaseTitle
+{
+    if (!_pullReleaseTitle) {
+        _pullReleaseTitle = [[[self class] appearance] pullReleaseTitle];
+    }
+    return _pullReleaseTitle;
+}
+
+- (NSString *)pullUpRefreshingTitle
+{
+    if (!_pullRefreshingTitle) {
+        _pullRefreshingTitle = [[[self class] appearance] pullRefreshingTitle];
+    }
+    return _pullRefreshingTitle;
+}
+
 @end

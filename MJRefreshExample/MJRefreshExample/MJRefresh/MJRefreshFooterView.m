@@ -33,33 +33,6 @@
     return refreshFooterView;
 }
 
-#pragma mark -
-#pragma mark - UIAppearance
-
-//- (NSString *)pullNormalTitle
-//{
-//    if (!_pullNormalTitle) {
-//        _pullDownNormalTitle = [[[self class] appearance] pullNormalTitle];
-//    }
-//    return _pullDownNormalTitle;
-//}
-//
-//- (NSString *)pullUpNormalTitle
-//{
-//    if (!_pullUpNormalTitle) {
-//        _pullUpNormalTitle = [[[self class] appearance] pullUpNormalTitle];
-//    }
-//    return _pullUpNormalTitle;
-//}
-//
-//- (NSString *)pullUpRefreshingTitle
-//{
-//    if (!_pullUpRefreshingTitle) {
-//        _pullUpRefreshingTitle = [[[self class] appearance] pullUpRefreshingTitle];
-//    }
-//    return _pullUpRefreshingTitle;
-//}
-
 - (void)layoutSubviews
 {
     [super layoutSubviews];
