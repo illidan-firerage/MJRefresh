@@ -12,8 +12,8 @@
 #import <objc/runtime.h>
 
 @interface UIScrollView()
-@property (weak, nonatomic) MJRefreshHeaderView *header;
-@property (weak, nonatomic) MJRefreshFooterView *footer;
+@property (weak, nonatomic, readwrite) MJRefreshHeaderView *refreshHeader;
+@property (weak, nonatomic, readwrite) MJRefreshFooterView *refreshFooter;
 @end
 
 
@@ -23,7 +23,7 @@
 static char MJRefreshHeaderViewKey;
 static char MJRefreshFooterViewKey;
 
-- (void)setHeader:(MJRefreshHeaderView *)header {
+- (void)setRefreshHeader:(MJRefreshHeaderView *)header {
     [self willChangeValueForKey:@"MJRefreshHeaderViewKey"];
     objc_setAssociatedObject(self, &MJRefreshHeaderViewKey,
                              header,
@@ -31,11 +31,11 @@ static char MJRefreshFooterViewKey;
     [self didChangeValueForKey:@"MJRefreshHeaderViewKey"];
 }
 
-- (MJRefreshHeaderView *)header {
+- (MJRefreshHeaderView *)refreshHeader {
     return objc_getAssociatedObject(self, &MJRefreshHeaderViewKey);
 }
 
-- (void)setFooter:(MJRefreshFooterView *)footer {
+- (void)setRefreshFooter:(MJRefreshFooterView *)footer {
     [self willChangeValueForKey:@"MJRefreshFooterViewKey"];
     objc_setAssociatedObject(self, &MJRefreshFooterViewKey,
                              footer,
@@ -43,7 +43,7 @@ static char MJRefreshFooterViewKey;
     [self didChangeValueForKey:@"MJRefreshFooterViewKey"];
 }
 
-- (MJRefreshFooterView *)footer {
+- (MJRefreshFooterView *)refreshFooter {
     return objc_getAssociatedObject(self, &MJRefreshFooterViewKey);
 }
 
@@ -56,14 +56,14 @@ static char MJRefreshFooterViewKey;
 - (void)addHeaderWithCallback:(void (^)())callback
 {
     // 1.创建新的header
-    if (!self.header) {
+    if (!self.refreshHeader) {
         MJRefreshHeaderView *header = [MJRefreshHeaderView header];
         [self addSubview:header];
-        self.header = header;
+        self.refreshHeader = header;
     }
     
     // 2.设置block回调
-    self.header.beginRefreshingCallback = callback;
+    self.refreshHeader.beginRefreshingCallback = callback;
 }
 
 /**
@@ -75,15 +75,15 @@ static char MJRefreshFooterViewKey;
 - (void)addHeaderWithTarget:(id)target action:(SEL)action
 {
     // 1.创建新的header
-    if (!self.header) {
+    if (!self.refreshHeader) {
         MJRefreshHeaderView *header = [MJRefreshHeaderView header];
         [self addSubview:header];
-        self.header = header;
+        self.refreshHeader = header;
     }
     
     // 2.设置目标和回调方法
-    self.header.beginRefreshingTaget = target;
-    self.header.beginRefreshingAction = action;
+    self.refreshHeader.beginRefreshingTaget = target;
+    self.refreshHeader.beginRefreshingAction = action;
 }
 
 /**
@@ -91,8 +91,8 @@ static char MJRefreshFooterViewKey;
  */
 - (void)removeHeader
 {
-    [self.header removeFromSuperview];
-    self.header = nil;
+    [self.refreshHeader removeFromSuperview];
+    self.refreshHeader = nil;
 }
 
 /**
@@ -100,7 +100,7 @@ static char MJRefreshFooterViewKey;
  */
 - (void)headerBeginRefreshing
 {
-    [self.header beginRefreshing];
+    [self.refreshHeader beginRefreshing];
 }
 
 /**
@@ -108,7 +108,7 @@ static char MJRefreshFooterViewKey;
  */
 - (void)headerEndRefreshing
 {
-    [self.header endRefreshing];
+    [self.refreshHeader endRefreshing];
 }
 
 /**
@@ -116,12 +116,12 @@ static char MJRefreshFooterViewKey;
  */
 - (void)setHeaderHidden:(BOOL)hidden
 {
-    self.header.hidden = hidden;
+    self.refreshHeader.hidden = hidden;
 }
 
 - (BOOL)isHeaderHidden
 {
-    return self.header.isHidden;
+    return self.refreshHeader.isHidden;
 }
 
 #pragma mark - 上拉刷新
@@ -133,27 +133,27 @@ static char MJRefreshFooterViewKey;
 - (void)addFooterWithCallback:(void (^)())callback
 {
     // 1.创建新的footer
-    if (!self.footer) {
+    if (!self.refreshFooter) {
         MJRefreshFooterView *footer = [MJRefreshFooterView footer];
         [self addSubview:footer];
-        self.footer = footer;
+        self.refreshFooter = footer;
     }
     
     // 2.设置block回调
-    self.footer.beginRefreshingCallback = callback;
+    self.refreshFooter.beginRefreshingCallback = callback;
 }
 
 - (void)addFooterWithAutoLoading:(BOOL)autoLoading callback:(void (^)())callback
 {
     // 1.创建新的footer
-    if (!self.footer) {
+    if (!self.refreshFooter) {
         MJRefreshFooterView *footer = [MJRefreshFooterView footerWithAutoLoading:autoLoading];
         [self addSubview:footer];
-        self.footer = footer;
+        self.refreshFooter = footer;
     }
     
     // 2.设置block回调
-    self.footer.beginRefreshingCallback = callback;
+    self.refreshFooter.beginRefreshingCallback = callback;
 }
 
 /**
@@ -165,29 +165,29 @@ static char MJRefreshFooterViewKey;
 - (void)addFooterWithTarget:(id)target action:(SEL)action
 {
     // 1.创建新的footer
-    if (!self.footer) {
+    if (!self.refreshFooter) {
         MJRefreshFooterView *footer = [MJRefreshFooterView footer];
         [self addSubview:footer];
-        self.footer = footer;
+        self.refreshFooter = footer;
     }
     
     // 2.设置目标和回调方法
-    self.footer.beginRefreshingTaget = target;
-    self.footer.beginRefreshingAction = action;
+    self.refreshFooter.beginRefreshingTaget = target;
+    self.refreshFooter.beginRefreshingAction = action;
 }
 
 - (void)addFooterWithTarget:(id)target action:(SEL)action autoLoading:(BOOL)autoLoading
 {
     // 1.创建新的footer
-    if (!self.footer) {
+    if (!self.refreshFooter) {
         MJRefreshFooterView *footer = [MJRefreshFooterView footerWithAutoLoading:autoLoading];
         [self addSubview:footer];
-        self.footer = footer;
+        self.refreshFooter = footer;
     }
     
     // 2.设置目标和回调方法
-    self.footer.beginRefreshingTaget = target;
-    self.footer.beginRefreshingAction = action;
+    self.refreshFooter.beginRefreshingTaget = target;
+    self.refreshFooter.beginRefreshingAction = action;
 }
 
 /**
@@ -195,8 +195,8 @@ static char MJRefreshFooterViewKey;
  */
 - (void)removeFooter
 {
-    [self.footer removeFromSuperview];
-    self.footer = nil;
+    [self.refreshFooter removeFromSuperview];
+    self.refreshFooter = nil;
 }
 
 /**
@@ -204,7 +204,7 @@ static char MJRefreshFooterViewKey;
  */
 - (void)footerBeginRefreshing
 {
-    [self.footer beginRefreshing];
+    [self.refreshFooter beginRefreshing];
 }
 
 /**
@@ -212,7 +212,7 @@ static char MJRefreshFooterViewKey;
  */
 - (void)footerEndRefreshing
 {
-    [self.footer endRefreshing];
+    [self.refreshFooter endRefreshing];
 }
 
 /**
@@ -220,11 +220,11 @@ static char MJRefreshFooterViewKey;
  */
 - (void)setFooterHidden:(BOOL)hidden
 {
-    self.footer.hidden = hidden;
+    self.refreshFooter.hidden = hidden;
 }
 
 - (BOOL)isFooterHidden
 {
-    return self.footer.isHidden;
+    return self.refreshFooter.isHidden;
 }
 @end

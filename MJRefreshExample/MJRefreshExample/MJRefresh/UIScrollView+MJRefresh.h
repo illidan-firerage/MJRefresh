@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MJRefreshHeaderView.h"
+#import "MJRefreshFooterView.h"
 
 @interface UIScrollView (MJRefresh)
+
+@property (weak, nonatomic, readonly) MJRefreshHeaderView *refreshHeader;
+@property (weak, nonatomic, readonly) MJRefreshFooterView *refreshFooter;
+
 #pragma mark - 下拉刷新
 /**
  *  添加一个下拉刷新头部控件
